@@ -10,8 +10,20 @@
  * Learn more at https://developers.cloudflare.com/workers/runtime-apis/scheduled-event/
  */
 
+//             ilw8      [k]       kciceblue duckymachete sadshiba
+const users = [14167692, 16551387, 27108477, 32005855,    10747626]
+
 export default {
 	async scheduled(controller, env, ctx) {
-		console.log(`Hello World!`);
+		let userToFetch = users[new Date().getMinutes() % users.length];
+		let target = `https://osutrack-api.ameo.dev/update?user=${userToFetch}&mode=0`;
+		let res = await fetch(target, {
+			method: "POST",
+		})
+		if (res.status < 200 || res.status >= 400) {
+			console.log(`[POST - ${res.status}] Request to ${target} failed with return status code ${res.status}`);
+		} else {
+			console.log(`[POST - ${res.status}] Successfully updated user ${userToFetch}`);
+		}
 	},
 };
