@@ -25,5 +25,34 @@ export default {
 		} else {
 			console.log(`[POST - ${res.status}] Successfully updated user ${userToFetch}`);
 		}
+
+		// 727 webhook
+		let now = new Date();
+
+		let thing = new Intl.DateTimeFormat(undefined, { timeZone: 'Europe/London', hour: 'numeric' }).format(now);
+		thing += new Intl.DateTimeFormat(undefined, { timeZone: 'Europe/London', minute: 'numeric' }).format(now);
+		if (thing.includes("727")) {
+			await fetch("***REMOVED***", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				redirect: "follow",
+				body: JSON.stringify({
+					"content": null,
+					"embeds": [
+						{
+							"title": "WHEN YOU SEE IT",
+							"description": `It's currently ${now.toLocaleString("ca-iso8601", {timeZone: "Europe/London"})} in \`Europe/London\``,
+							"color": 1985535,
+							"image": {
+								"url": "https://cdn.discordapp.com/emojis/811095985597317150.gif"
+							}
+						}
+					],
+					"attachments": []
+				})
+			})
+		}
 	},
 };
