@@ -32,7 +32,12 @@ export default {
 		let thing = new Intl.DateTimeFormat(undefined, { timeZone: 'Europe/London', hour: 'numeric' }).format(now);
 		thing += new Intl.DateTimeFormat(undefined, { timeZone: 'Europe/London', minute: 'numeric' }).format(now);
 		if (thing.includes("727")) {
-			await fetch("***REMOVED***", {
+			if (!("DISCORD_WEBHOOK_URL" in env) || env.DISCORD_WEBHOOK_URL.length === 0) {
+				console.log("This worker is misconfigured. DISCORD_WEBHOOK_URL is missing.")
+				return;
+			}
+			let webhook_url = env.DISCORD_WEBHOOK_URL
+			await fetch(webhook_url, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
